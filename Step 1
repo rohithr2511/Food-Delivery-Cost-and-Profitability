@@ -1,0 +1,71 @@
+let’s get started with the task of Food Delivery Cost and Profitability Analysis by importing the necessary Python libraries and the dataset:
+
+import pandas as pd
+
+food_orders = pd.read_csv("food_orders_new_delhi.csv")
+print(food_orders.head())
+1
+import pandas as pd
+2
+​
+3
+food_orders = pd.read_csv("food_orders_new_delhi.csv")
+4
+print(food_orders.head())
+
+  Order ID Customer ID Restaurant ID  Order Date and Time  \
+0         1       C8270         R2924  2024-02-01 01:11:52   
+1         2       C1860         R2054  2024-02-02 22:11:04   
+2         3       C6390         R2870  2024-01-31 05:54:35   
+3         4       C6191         R2642  2024-01-16 22:52:49   
+4         5       C6734         R2799  2024-01-29 01:19:30   
+
+  Delivery Date and Time  Order Value  Delivery Fee    Payment Method  \
+0    2024-02-01 02:39:52         1914             0       Credit Card   
+1    2024-02-02 22:46:04          986            40    Digital Wallet   
+2    2024-01-31 06:52:35          937            30  Cash on Delivery   
+3    2024-01-16 23:38:49         1463            50  Cash on Delivery   
+4    2024-01-29 02:48:30         1992            30  Cash on Delivery   
+
+  Discounts and Offers  Commission Fee  Payment Processing Fee  \
+0            5% on App             150                      47   
+1                  10%             198                      23   
+2         15% New User             195                      45   
+3                 None             146                      27   
+4         50 off Promo             130                      50   
+
+   Refunds/Chargebacks  
+0                    0  
+1                    0  
+2                    0  
+3                    0  
+4                    0  
+
+print(food_orders.info())
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 12 columns):
+ #   Column                  Non-Null Count  Dtype 
+---  ------                  --------------  ----- 
+ 0   Order ID                1000 non-null   int64 
+ 1   Customer ID             1000 non-null   object
+ 2   Restaurant ID           1000 non-null   object
+ 3   Order Date and Time     1000 non-null   object
+ 4   Delivery Date and Time  1000 non-null   object
+ 5   Order Value             1000 non-null   int64 
+ 6   Delivery Fee            1000 non-null   int64 
+ 7   Payment Method          1000 non-null   object
+ 8   Discounts and Offers    1000 non-null   object
+ 9   Commission Fee          1000 non-null   int64 
+ 10  Payment Processing Fee  1000 non-null   int64 
+ 11  Refunds/Chargebacks     1000 non-null   int64 
+dtypes: int64(6), object(6)
+memory usage: 93.9+ KB
+None
+
+The dataset contains 1,000 entries and 12 columns, with no missing values in any of the columns. Now, we need to perform some data cleaning and preparation. Below are the necessary cleaning steps we need to take:
+
+-Convert “Order Date and Time” and “Delivery Date and Time” to a datetime format.
+-Convert “Discounts and Offers” to a consistent numeric value (if applicable) or calculate the discount amounts.
+-Ensure all monetary values are in a suitable format for calculations.
