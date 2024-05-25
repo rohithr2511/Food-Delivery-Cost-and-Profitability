@@ -1,0 +1,35 @@
+Let’s proceed with the cost and profitability analysis:
+# calculate total costs and revenue per order
+food_orders['Total Costs'] = food_orders['Delivery Fee'] + food_orders['Payment Processing Fee'] + food_orders['Discount Amount']
+food_orders['Revenue'] = food_orders['Commission Fee']
+food_orders['Profit'] = food_orders['Revenue'] - food_orders['Total Costs']
+
+# aggregate data to get overall metrics
+total_orders = food_orders.shape[0]
+total_revenue = food_orders['Revenue'].sum()
+total_costs = food_orders['Total Costs'].sum()
+total_profit = food_orders['Profit'].sum()
+
+overall_metrics = {
+    "Total Orders": total_orders,
+    "Total Revenue": total_revenue,
+    "Total Costs": total_costs,
+    "Total Profit": total_profit
+}
+
+print(overall_metrics)
+
+{'Total Orders': 1000, 'Total Revenue': 126990, 'Total Costs': 232709.85, 'Total Profit': -105719.85}
+Based on the analysis, here are the overall metrics for the food delivery operations:
+
+-Total Orders: 1,000
+-Total Revenue (from Commission Fees): 126,990 INR
+-Total Costs: 232,709.85 INR (including delivery fees, payment processing fees, and discounts)
+-Total Profit: -105,719.85 INR
+The analysis indicates that the total costs associated with the food delivery operations exceed the total revenue generated from commission fees, resulting in a net loss. It suggests that the current commission rates, delivery fees, and discount strategies might not be sustainable for profitability.
+
+To better understand the distribution of costs, revenue, and profit, let’s plot:
+
+-A histogram of profits per order to visualize the distribution of profitable and unprofitable orders.
+-A pie chart to visualize the proportion of total costs (delivery fees, payment processing fees, and discounts).
+-A bar chart to compare total revenue, total costs, and total profit
