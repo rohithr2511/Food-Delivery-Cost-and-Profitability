@@ -1,0 +1,71 @@
+Let’s perform these data preparation steps:
+
+from datetime import datetime
+# convert date and time columns to datetime
+food_orders['Order Date and Time'] = pd.to_datetime(food_orders['Order Date and Time'])
+food_orders['Delivery Date and Time'] = pd.to_datetime(food_orders['Delivery Date and Time'])
+# first, let's create a function to extract numeric values from the 'Discounts and Offers' string
+def extract_discount(discount_str):
+    if 'off' in discount_str:
+        # Fixed amount off
+        return float(discount_str.split(' ')[0])
+    elif '%' in discount_str:
+        # Percentage off
+        return float(discount_str.split('%')[0])
+    else:
+        # No discount
+        return 0.0
+
+# apply the function to create a new 'Discount Value' column
+food_orders['Discount Percentage'] = food_orders['Discounts and Offers'].apply(lambda x: extract_discount(x))
+
+# for percentage discounts, calculate the discount amount based on the order value
+food_orders['Discount Amount'] = food_orders.apply(lambda x: (x['Order Value'] * x['Discount Percentage'] / 100)
+                                                   if x['Discount Percentage'] > 1
+                                                   else x['Discount Percentage'], axis=1)
+
+# adjust 'Discount Amount' for fixed discounts directly specified in the 'Discounts and Offers' column
+food_orders['Discount Amount'] = food_orders.apply(lambda x: x['Discount Amount'] if x['Discount Percentage'] <= 1
+                                                   else x['Order Value'] * x['Discount Percentage'] / 100, axis=1)
+
+print(food_orders[['Order Value', 'Discounts and Offers', 'Discount Percentage', 'Discount Amount']].head(), food_orders.dtypes)
+
+   Order Value Discounts and Offers  Discount Percentage  Discount Amount
+0         1914            5% on App                  5.0            95.70
+1          986                  10%                 10.0            98.60
+2          937         15% New User                 15.0           140.55
+3         1463                 None                  0.0             0.00
+4         1992         50 off Promo                 50.0           996.00 
+
+Order ID                           int64
+Customer ID                       object
+Restaurant ID                     object
+Order Date and Time       datetime64[ns]
+Delivery Date and Time    datetime64[ns]
+Order Value                        int64
+Delivery Fee                       int64
+Payment Method                    object
+Discounts and Offers              object
+Commission Fee                     int64
+Payment Processing Fee             int64
+Refunds/Chargebacks                int64
+Discount Percentage              float64
+Discount Amount                  float64
+dtype: object
+
+
+
+The data is now ready with the following adjustments:
+
+-Order Date and Time and Delivery Date and Time columns have been converted to datetime format.
+-A new column, Discount Amount, has been calculated based on the Discounts and Offers column. This was achieved by extracting percentage discounts or fixed amounts and applying them to the order value.
+-Discount Percentage has been added to represent the discount rate or fixed amount discount directly.
+
+##Cost and Profitability Analysis
+For the cost analysis, we’ll consider the following costs associated with each order:
+-Delivery Fee: The fee charged for delivering the order.
+-Payment Processing Fee: The fee for processing the payment.
+-Discount Amount: The discount provided on the order.
+We’ll calculate the total cost for the platform per order and then aggregate this data to understand the overall cost structure.
+
+The revenue for the platform is mainly derived from the Commission Fee. We’ll calculate the net profit by subtracting the total costs (including discounts) from the revenue generated through commission fees.
